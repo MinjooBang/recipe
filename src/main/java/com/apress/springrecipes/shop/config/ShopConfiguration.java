@@ -10,12 +10,21 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 
 @Configuration
 @PropertySource("classpath:discounts.properties")
 @ComponentScan(basePackages = "com.apress.springrecipes.shop")
 public class ShopConfiguration {
+
+    @Bean
+    public ReloadableResourceBundleMessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:messages");
+        messageSource.setCacheSeconds(1); //쓸모없는 메시지를 다시 읽지 x
+        return messageSource;
+    }
 
     @Value("classpath:banner.txt")
     private Resource banner;

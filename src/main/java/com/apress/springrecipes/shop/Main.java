@@ -8,6 +8,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
+import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 
 
@@ -15,11 +17,16 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         ApplicationContext context = new AnnotationConfigApplicationContext(ShopConfiguration.class);
-
+        //2.7
+        String alert = context.getMessage("alert.checkout", null, Locale.US);
+        String alert_inventory = context.getMessage("alert.inventory.checkout", new Object[]{"[DVD_RW 3.0]", new Date()}, Locale.US);
+        System.out.println("The I18N message for alert.chckout is " +alert);
+        System.out.println("The I18N message for alert.alert.inventory.checkout is " +alert_inventory);
+        //2.6
         Resource resource = new ClassPathResource("discounts.properties");
         Properties props = PropertiesLoaderUtils.loadProperties(resource);
         System.out.println(props);
-
+        //2.4~2.5
         Product aaa = context.getBean("aaa", Product.class);
         Product cdrw = context.getBean("cdrw", Product.class);
         Product dvdrw = context.getBean("dvdrw", Product.class);
