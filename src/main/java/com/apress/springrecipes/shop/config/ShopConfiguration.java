@@ -1,15 +1,37 @@
 package com.apress.springrecipes.shop.config;
 
+import com.apress.springrecipes.shop.BannerLoader;
 import com.apress.springrecipes.shop.Battery;
 import com.apress.springrecipes.shop.Disc;
 import com.apress.springrecipes.shop.Product;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.io.Resource;
 
 @Configuration
-@ComponentScan("com.apress.springrecipes.shop")
+@PropertySource("classpath:discounts.properties")
+@ComponentScan(basePackages = "com.apress.springrecipes.shop")
 public class ShopConfiguration {
+
+    @Value("classpath:banner.txt")
+    private Resource banner;
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer
+    propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public BannerLoader bannerLoader() {
+        BannerLoader bl = new BannerLoader();
+        bl.setBanner(banner);
+        return bl;
+    }
 
     @Bean
     public Product aaa() {
@@ -32,4 +54,6 @@ public class ShopConfiguration {
         return p2;
 
     }
+
+
 }

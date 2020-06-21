@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'application'
 
-mainClassName = "com.apress.springrecipes.sequence.Main"
+mainClassName = "com.apress.springrecipes.shop.Main"
 
 repositories {
     mavenCentral()
@@ -13,8 +13,8 @@ jar {
     version =  "0.0.1-SNAPSHOT"
     manifest {
         attributes "Implementation-Title": "${rootProject.name}",
-                   "Implementation-Version": version,
-                   "Main-Class": "${mainClassName}"
+                "Implementation-Version": version,
+                "Main-Class": "${mainClassName}"
     }
 }
 
@@ -30,5 +30,6 @@ ext {
 dependencies {
     compile "org.springframework:spring-core:${springVersion}"
     compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework:spring-beans:${springVersion}"
     compile "org.slf4j:slf4j-simple:1.7.25"
 }
