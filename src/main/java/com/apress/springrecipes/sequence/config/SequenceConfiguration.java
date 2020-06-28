@@ -25,7 +25,3 @@ public class SequenceConfiguration {
 
     }
 }
-// 2.3 POJO 레퍼런스와 자동 연결을 이용해서 다른 POJO랑 상호 작용
-/*
-@Autowired - @Bean 설정 객체 주입
- */

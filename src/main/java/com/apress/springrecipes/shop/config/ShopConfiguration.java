@@ -10,19 +10,23 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 @PropertySource("classpath:discounts.properties")
 @ComponentScan(basePackages = "com.apress.springrecipes.shop")
 public class ShopConfiguration {
 
-    @Bean(initMethod = "openFile",destroyMethod = "closeFile")
-    public Cashier cashier(){
-        String path = System.getProperty("java.io.tmpdir"+"/cashier");
+    @Bean(initMethod = "openFile", destroyMethod = "closeFile")
+    public Cashier cashier() {
+        String path = System.getProperty("java.io.tmpdir" + "/cashier");
         Cashier c1 = new Cashier();
         c1.setFileName("checkout");
         c1.setPath(path);
         return c1;
     }
+
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -48,26 +52,61 @@ public class ShopConfiguration {
     }
 
     @Bean
+    public ProductCreator productCreatorFactory() {
+        /*
+        인스턴스 팩토리 메소드로 POJO 생성하기
+         */
+        ProductCreator factory = new ProductCreator();
+        Map<String, Product> products = new HashMap<>();
+        products.put("aaa", new Battery("AAA", 2.5));
+        products.put("cdrw", new Battery("cdrw", 1.5));
+        products.put("dvdrw", new Battery("dvdrw", 3.0));
+        factory.setProducts(products);
+        return factory;
+    }
+
+    @Bean
     public Product aaa() {
-        Battery p1 = new Battery("AAA", 2.5);
-        p1.setRechargeable(true);
-        return p1;
+        //  return productCreatorFactory().creatProduct("aaa"); 인스턴스 팩토리 메소드
+        Battery aaa = new Battery("AAA", 2.5);
+        return aaa;
+
     }
 
     @Bean
     public Product cdrw() {
-        Disc p2 = new Disc("CD-RW", 1.5);
-        p2.setCapacity(700);
-        return p2;
+        // return productCreatorFactory().creatProduct("cdrw");인스턴스 팩토리 메소드
+        Disc aaa = new Disc("CD-RW", 1.5);
+        return aaa;
     }
 
     @Bean
     public Product dvdrw() {
-        Disc p2 = new Disc("DBD-RW", 3.0);
-        p2.setCapacity(700);
-        return p2;
-
+        // return productCreatorFactory().creatProduct("dvdrw");인스턴스 팩토리 메소드
+        Disc aaa = new Disc("DVD-RW", 3.0);
+        return aaa;
     }
+
+    @Bean
+    public DiscountFactoryBean discountFactoryBeanAAA(){
+        DiscountFactoryBean factory = new DiscountFactoryBean();
+        factory.setProduct(aaa());
+        factory.setDiscount(0.2);
+        return factory;
+    } @Bean
+    public DiscountFactoryBean discountFactoryBeanCDRW(){
+        DiscountFactoryBean factory = new DiscountFactoryBean();
+        factory.setProduct(cdrw());
+        factory.setDiscount(0.1);
+        return factory;
+    } @Bean
+    public DiscountFactoryBean discountFactoryBeanDVDRE(){
+        DiscountFactoryBean factory = new DiscountFactoryBean();
+        factory.setProduct(dvdrw());
+        factory.setDiscount(0.1);
+        return factory;
+    }
+
 
 
 }

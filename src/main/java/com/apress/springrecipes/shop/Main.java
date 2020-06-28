@@ -10,6 +10,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -39,6 +40,10 @@ public class Main {
         ShoppingCart cart2 = context.getBean("shoppingCart", ShoppingCart.class);
         cart2.addItem(dvdrw);
         System.out.println("Shopping cart 2 contains " + cart2.getItems());
+
+        Cashier cashier = context.getBean("cashier", Cashier.class);
+        cashier.checkout(cart1);
+        cashier.checkout(cart2);
 
 
     }

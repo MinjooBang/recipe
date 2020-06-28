@@ -1,6 +1,7 @@
 package com.apress.springrecipes.sequence;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
 
 public class SequenceGenerator {
 
@@ -17,11 +18,11 @@ public class SequenceGenerator {
         this.suffix = suffix;
         this.initial = initial;
     }
-
+    @Required
     public void setPrefixGenerator(PrefixGenerator prefixGenerator) {
         this.prefixGenerator = prefixGenerator;
     }
-
+    @Required
     public void setSuffix(String suffix) {
         this.suffix = suffix;
     }
